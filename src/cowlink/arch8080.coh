@@ -23,11 +23,11 @@ sub ArchEmitWSRef(wid: uint8, address: Size) is
 end sub;
 
 sub ArchEmitHeader(coo: [Coo]) is
-	E("\torg 100h\n");
+	# E("\torg 100h\n"); <= we prefer not to set all this in the linker
 
-	E("\tlxi sp, TOP+");
-	E_u16(STACK_SIZE);
-	E_nl();
+	# E("\tlxi sp, TOP+");  but putting it in cpm.coh (or in CP/M's cowgol.coh)
+	# E_u16(STACK_SIZE);    and include in a project's source 
+	# E_nl();  <= to develop not only for CP/M, but also for other 8080-based
 
 	while coo != (0 as [Coo]) loop
 		var main := coo.index.subroutines[0];
@@ -39,7 +39,7 @@ sub ArchEmitHeader(coo: [Coo]) is
 		coo := coo.next;
 	end loop;
 
-	E("\trst 0\n");
+	# E("\trst 0\n");
 end sub;
 
 sub ArchEmitFooter(coo: [Coo]) is
